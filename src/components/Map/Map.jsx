@@ -1,4 +1,5 @@
 import React from 'react';
+import env from "react-dotenv";
 import GoogleMapReact from 'google-map-react';
 import { Paper, Typography, useMediaQuery} from '@material-ui/core';
 import LocationOnOutlinedIcon from '@material-ui/icons/LocationOnOutlined';
@@ -12,11 +13,12 @@ const Map = () => {
     const isMobile = useMediaQuery('(min-width:600px)');
 
     const coordinates = { lat: 0, lng:0};
+    console.log(env.API_KEY);
     
     return (
         <div className={classes.mapContainer}>
             <GoogleMapReact
-                bootstrapURLKeys={{ key: '' }}
+                bootstrapURLKeys={{ key: env.API_KEY }}
                 defaultCenter={coordinates}
                 center={coordinates}
                 defaultZoom={14}
