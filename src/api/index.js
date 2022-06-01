@@ -8,8 +8,8 @@ export const getPlacesData = async (sw, ne) => {
         const {data: { data } } = await axios.get(URL, {
             params: {
               bl_latitude: sw.lat,
-              tr_latitude: ne.lat,
               bl_longitude: sw.lng,
+              tr_latitude: ne.lat,
               tr_longitude: ne.lng,
             },
             headers: {
@@ -20,6 +20,7 @@ export const getPlacesData = async (sw, ne) => {
 
         return data;
     } catch (error) {
+        console.log('error');
         console.log(error);
     }
 }

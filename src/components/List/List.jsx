@@ -10,9 +10,6 @@ const List = ({ places }) => {
     const [type, setType] = useState('restaurants');
     const [rating, setRating] = useState('');
 
-    console.log('LISt');
-    console.log(places);
-
 
     return (
         <div className={classes.container}>

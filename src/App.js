@@ -10,23 +10,26 @@ import Map from './components/Map/Map';
 const App = () => {
     const [places, setPlaces] = useState([]);
 
-    const [coordinates, setCoordinates] = useState({}); 
-    const [bounds, setBounds] = useState(null); 
+    const [coordinates, setCoordinates] = useState({lat: 0, lng: 0}); 
+    const [bounds, setBounds] = useState({});
+    
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
+        window.onload = navigator.geolocation.getCurrentPosition(({ coords: { latitude, longitude } }) => {
             setCoordinates({ lat: latitude, lng: longitude })
         })
-
     }, [])
 
     useEffect(() =>{
-        console.log(coordinates, bounds);
-        getPlacesData(bounds.ne, bounds.sw) // if datasets are passed on page setup nothing happened. when deleted page loads, when passing in it works ?!?!
-            .then((data) => {
-                console.log(data);
-                setPlaces(data);
-            })
+        if (bounds) {
+            setIsLoading(true);
+            getPlacesData(bounds.sw, bounds.ne) // bounds.sw, bounds.ne  if datasets are passed on page setup nothing happened. when deleted page loads, when passing in it works ?!?!
+                .then((data) => {
+                    setPlaces(data);
+                    setIsLoading(false);
+                })
+            }
     }, [coordinates, bounds]);
         
     return (
@@ -39,8 +42,8 @@ const App = () => {
                 </Grid>
                 <Grid item xs={12} md={8}>
                     <Map
-                        setCoordinates={setCoordinates}
                         setBounds={setBounds}
+                        setCoordinates={setCoordinates}
                         coordinates={coordinates}
                     />
                 </Grid>
