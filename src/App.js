@@ -9,6 +9,8 @@ import Map from './components/Map/Map';
 
 const App = () => {
     const [places, setPlaces] = useState([]);
+    const [filteredPlaces, setFilteredPlaces] = useState([])
+
     const [childClicked, setChildClicked] = useState(null)
 
     const [coordinates, setCoordinates] = useState({lat: 0, lng: 0}); 
@@ -24,12 +26,20 @@ const App = () => {
         })
     }, [])
 
+    useEffect(() => {
+        const filteredPlaces = places.filter((place) => place.rating > rating);
+    
+        setFilteredPlaces(filteredPlaces);
+    }, [rating])
+    
+
     useEffect(() =>{
         if (bounds) {
             setIsLoading(true);
             getPlacesData(type, bounds.sw, bounds.ne) // bounds.sw, bounds.ne  if datasets are passed on page setup nothing happened. when deleted page loads, when passing in it works ?!?!
                 .then((data) => {
                     setPlaces(data);
+                    setFilteredPlaces([]);
                     setIsLoading(false);
                 })
             }
@@ -42,7 +52,7 @@ const App = () => {
             <Grid container spacing={3} style={{ widht: '100%'}}> 
                 <Grid item xs={12} md={4}>
                     <List 
-                        places= {places} 
+                        places= {filteredPlaces.length ? filteredPlaces : places} 
                         childClicked={childClicked}
                         isLoading={isLoading}
                         type={type}
@@ -56,7 +66,7 @@ const App = () => {
                         setBounds={setBounds}
                         setCoordinates={setCoordinates}
                         coordinates={coordinates}
-                        places= {places}
+                        places= {filteredPlaces.length ? filteredPlaces : places}
                         setChildClicked={setChildClicked}
                     />
                 </Grid>
