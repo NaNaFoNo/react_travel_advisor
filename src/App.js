@@ -34,16 +34,17 @@ const App = () => {
     
 
     useEffect(() =>{
-        if (bounds) {
+        if (bounds.sw && bounds.ne) {
             setIsLoading(true);
+
             getPlacesData(type, bounds.sw, bounds.ne) // bounds.sw, bounds.ne  if datasets are passed on page setup nothing happened. when deleted page loads, when passing in it works ?!?!
                 .then((data) => {
-                    setPlaces(data);
+                    setPlaces(data?.filter((place) => place.name && place.num_reviews > 0));
                     setFilteredPlaces([]);
                     setIsLoading(false);
                 })
             }
-    }, [type, coordinates, bounds]);
+    }, [type, bounds]);
         
     return (
         <>
