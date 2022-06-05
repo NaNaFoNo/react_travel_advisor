@@ -1,6 +1,6 @@
 import axios from 'axios';
-import env from "react-dotenv";
 
+const API_KEY = process.env.REACT_APP_RAPID_API_KEY;
 
 export const getPlacesData = async (type, sw, ne) => {
     try {
@@ -13,7 +13,7 @@ export const getPlacesData = async (type, sw, ne) => {
             },
             headers: {
               'X-RapidAPI-Host': 'travel-advisor.p.rapidapi.com',
-              'X-RapidAPI-Key': env.RAPID_KEY // env.RAPID_KEY
+              'X-RapidAPI-Key': API_KEY
             }
         });
 
@@ -29,7 +29,7 @@ export const getWeatherData = async (lat, lng) => {
           params: { lon: lng, lat: lat},
           headers: {
             'X-RapidAPI-Host': 'community-open-weather-map.p.rapidapi.com',
-            'X-RapidAPI-Key': env.WEATHER_KEY
+            'X-RapidAPI-Key': API_KEY
           }
       });
       
